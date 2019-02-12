@@ -5,15 +5,21 @@ class Invasion:
                  DefenderMissionInfo=None, Activation=None):
 
         self.num = num
-        self.InvasionId = _id["$oid"]
-        self.Faction = Faction
-        self.Node = Node
-        self.Count = Count
-        self.Goal = Goal
-        self.LocTag = LocTag
-        self.Completed = Completed
-        self.AttackerReward = AttackerReward
-        self.AttackerMissionInfo = AttackerMissionInfo
-        self.DefenderReward = DefenderReward
-        self.DefenderMissionInfo = DefenderMissionInfo
-        self.Activation = Activation["$date"]["$numberLong"]
+        self.invasionId = _id["$oid"]
+        self.faction = Faction
+        self.node = Node
+        self.count = Count
+        self.goal = Goal
+        self.locTag = LocTag
+        self.completed = Completed
+        self.attackerReward = AttackerReward
+        self.attackerMissionInfo = AttackerMissionInfo
+        self.defenderReward = DefenderReward
+        self.defenderMissionInfo = DefenderMissionInfo
+        self.activation = Activation["$date"]["$numberLong"]
+
+    def getPointsLeft(self):
+        if not self.completed:
+            return self.goal - self.count
+        else:
+            return 0

@@ -2,7 +2,28 @@ import requests
 import json
 from alerts import Alert
 from invasions import Invasion
+import configparser
 
+
+def getItemName(link):
+    parser = configparser.ConfigParser()
+    parser.read("itemlist.ini")
+    try:
+        name = parser.get("Items", link)
+    except configparser.NoOptionError:
+        return link
+    return name
+
+def getItemNameWrap(func):
+    def wrapper(*args, **kwargs):
+        link = func(*args, *kwargs)["item"]
+        parser = configparser.ConfigParser()
+        parser.read("itemlist.ini")
+        try:
+            name = parser.get("Items", link)
+        except configparser.NoOptionError:
+            return link
+        return name
 
 
 class Wrapper:
@@ -28,6 +49,16 @@ class Wrapper:
         data = json.loads(r.content)
         return data
 
+    @staticmethod
+    def getItemName(link):
+        parser = configparser.ConfigParser()
+        parser.read("itemlist.ini")
+        try:
+            name = parser.get("Items", link)
+        except configparser.NoOptionError:
+            return link
+        return name
+
     def listAlerts(self):
         alertlist = self.data["Alerts"]
         return alertlist
@@ -48,12 +79,13 @@ class Wrapper:
             self.invasions.append(Invasion(invastionNum, **c.data["Invasions"][invastionNum]))
 
 
-c = Wrapper("PC")
-c.getAlerts()
-c.getInvasions()
-print(c.invasions[0].Activation)
-for x in range(len(c.alerts)):
-    print(c.alerts[x].getAlertLoot())
+if __name__ == "__main__":
+    c = Wrapper("PC")
+    c.getAlerts()
+    c.getInvasions()
+    print(c.invasions[0].activation)
+    for x in range(len(c.alerts)):
+        print(c.alerts[x].getAlertLoot())
 
 #print(Alert.getItemName("/Lotus/Types/Items/MiscItems/Alertium"))
 
