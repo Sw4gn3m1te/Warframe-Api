@@ -1,3 +1,7 @@
+import configparser
+
+
+
 class Alert:
 
     def __init__(self, num, alertId=None, activation=None, expiry=None, missionType=None, maxWaveNum=None, faction=None,
@@ -25,6 +29,7 @@ class Alert:
         self.archwingRequired = archwingRequired
         self.isSharkwingMission = isSharkwingMission
         self.missionReward = missionReward
+
     '''
     def getAlertTime(self, alertid):
 
@@ -39,6 +44,13 @@ class Alert:
         #print(texp-tact) # total duration
         #print(texp-now) # time left ??? but no
     '''
+
+    @staticmethod
+    def getItemName(link):
+        parser = configparser.ConfigParser()
+        parser.read("itemlist.ini")
+        name = parser.get("Items", link)
+        return name
 
     def getAlertLoot(self):
         cred, itemcount = 0, 0
@@ -59,25 +71,8 @@ class Alert:
             except KeyError:
                 pass
 
-        if item == "/Lotus/Types/Items/MiscItems/Alertium":
-            item = "Nitan Extract"
-        elif item == "/Lotus/StoreItems/Upgrades/Mods/FusionBundles/AlertFusionBundleLarge":
-            item = "150 Endo"
-        elif item == "/Lotus/StoreItems/Upgrades/Mods/FusionBundles/AlertFusionBundleMedium":
-            item = "100 Endo"
-        elif item == "/Lotus/StoreItems/Types/Recipes/Weapons/PangolinSwordBlueprint":
-            item = "Pangolin Sword Blueprint"
-        elif item == "/Lotus/StoreItems/Types/Recipes/Helmets/NekrosShroudHelmetBlueprint":
-            item = "Nekros Shroud Helmet Blueprint"
-        elif item == "/Lotus/Types/Items/MiscItems/Tellurium":
-            item = "Tellurium"
-        elif item == "/Lotus/Types/Items/MiscItems/VoidTearDrop":
-            item = "Void Traces"
-        elif item == "/Lotus/Types/Items/MiscItems/Neurode":
-            item = "Neurode"
-        elif item == "/Lotus/StoreItems/Types/Recipes/WarframeRecipes/TrapperSystemsBlueprint":
-            item = "Vauban System Blueprint"
-        else:
-            pass
+        if item is not None:
+            item = self.getItemName(item)
 
         return {"credits": cred, "item": item, "amount": itemcount}
+
