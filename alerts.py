@@ -30,8 +30,10 @@ class Alert:
         self.isSharkwingMission = isSharkwingMission
         self.missionReward = missionReward
 
-    '''
-    def getAlertTime(self, alertid):
+
+    def getRemainingDuration(self, alertid):
+
+        return self.activation
 
         alert = self.listAlerts()[alertid]
         tact = int(alert["Activation"]["$date"]["$numberLong"])
@@ -43,13 +45,15 @@ class Alert:
 
         #print(texp-tact) # total duration
         #print(texp-now) # time left ??? but no
-    '''
 
     @staticmethod
     def getItemName(link):
         parser = configparser.ConfigParser()
         parser.read("itemlist.ini")
-        name = parser.get("Items", link)
+        try:
+            name = parser.get("Items", link)
+        except configparser.NoOptionError:
+            return link
         return name
 
     def getAlertLoot(self):

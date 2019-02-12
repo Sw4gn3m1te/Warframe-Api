@@ -55,6 +55,8 @@ print(c.invasions[0].Activation)
 for x in range(len(c.alerts)):
     print(c.alerts[x].getAlertLoot())
 
+#print(Alert.getItemName("/Lotus/Types/Items/MiscItems/Alertium"))
+
 # event : dict_keys(['_id', 'Messages', 'Prop', 'Date', 'Priority', 'MobileOnly'])
 #for x in range(len(c.data["Events"])):
 #    print(c.data["Events"][x]["Messages"])
