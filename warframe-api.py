@@ -125,6 +125,8 @@ class Alert:
             item = "Void Traces"
         elif item == "/Lotus/Types/Items/MiscItems/Neurode":
             item = "Neurode"
+        elif item == "/Lotus/StoreItems/Types/Recipes/WarframeRecipes/TrapperSystemsBlueprint":
+            item = "Vauban System Blueprint"
         else:
             pass
 
