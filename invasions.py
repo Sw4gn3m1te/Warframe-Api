@@ -23,3 +23,35 @@ class Invasion:
             return self.goal - self.count
         else:
             return 0
+
+    def getInvasionLoot(self, posistion):
+        from wrapper import Wrapper
+        cred, itemcount = 0, 0
+        item = None
+        if posistion == "atk":
+            loot = self.attackerReward
+            if loot == []:
+                return {"credits": 0, "item": None, "amount": 0}
+        elif posistion == "def":
+            loot = self.defenderReward
+        else:
+            raise Exception("position must be 'atk' or 'def' !")
+        try:
+            cred = loot["credits"]
+        except KeyError:
+            pass
+
+        try:
+            item = loot["countedItems"][0]["ItemType"]
+            itemcount = loot["countedItems"][0]["ItemCount"]
+        except KeyError:
+            try:
+                item = loot["items"][0]
+                itemcount = 1
+            except KeyError:
+                pass
+
+        if item is not None:
+            item = Wrapper.getItemName(item)
+
+        return {"credits": cred, "item": item, "amount": itemcount}
