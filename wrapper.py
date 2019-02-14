@@ -4,28 +4,6 @@ from alerts import Alert
 from invasions import Invasion
 import configparser
 
-
-def getItemName(link):
-    parser = configparser.ConfigParser()
-    parser.read("itemlist.ini")
-    try:
-        name = parser.get("Items", link)
-    except configparser.NoOptionError:
-        return link
-    return name
-
-def getItemNameWrap(func):
-    def wrapper(*args, **kwargs):
-        link = func(*args, *kwargs)["item"]
-        parser = configparser.ConfigParser()
-        parser.read("itemlist.ini")
-        try:
-            name = parser.get("Items", link)
-        except configparser.NoOptionError:
-            return link
-        return name
-
-
 class Wrapper:
 
     def __init__(self, platform):
@@ -75,19 +53,31 @@ class Wrapper:
                       **c.data["Alerts"][alertNum]["MissionInfo"]))
 
     def getInvasions(self):
-        for invastionNum in range(len(self.listInvasions())):
-            self.invasions.append(Invasion(invastionNum, **c.data["Invasions"][invastionNum]))
+        for invasionNum in range(len(self.listInvasions())):
+            self.invasions.append(Invasion(invasionNum, **c.data["Invasions"][invasionNum]))
 
 
 if __name__ == "__main__":
     c = Wrapper("PC")
     c.getAlerts()
     c.getInvasions()
-    print(c.invasions[0].activation)
     for x in range(len(c.alerts)):
         print(c.alerts[x].getAlertLoot())
+    print("\n")
 
-#print(Alert.getItemName("/Lotus/Types/Items/MiscItems/Alertium"))
+    for y in range(len(c.invasions)):
+        print(c.invasions[y].getInvasionLoot("atk"))
+        print(c.invasions[y].getInvasionLoot("def"))
+
+    print(c.alerts[1].getAlertLocation())
+    print(c.alerts[1].getAlertLoot())
+    #print(c.alerts[1].getRemainingDuration())
+
+    a = int(c.alerts[1].activation)
+    e = int(c.alerts[1].expiry)
+    now = int(c.data["Time"])
+    print((e-now)/1000)
+    #print(Alert.getItemName("/Lotus/Types/Items/MiscItems/Alertium"))
 
 # event : dict_keys(['_id', 'Messages', 'Prop', 'Date', 'Priority', 'MobileOnly'])
 #for x in range(len(c.data["Events"])):

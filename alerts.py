@@ -31,9 +31,9 @@ class Alert:
         self.nightmare = nightmare
 
 
-    def getRemainingDuration(self, alertid):
+    def getRemainingDuration(self):
 
-        return self.activation-self.expiry
+        return (int(self.expiry)-int(self.activation))
 
         #alert = self.listAlerts()[alertid]
         #tact = int(alert["Activation"]["$date"]["$numberLong"])
@@ -70,4 +70,7 @@ class Alert:
             item = Wrapper.getItemName(item)
 
         return {"credits": cred, "item": item, "amount": itemcount}
+
+    def getAlertLocation(self):
+        return (self.location, self.levelOverride)
 
