@@ -6,7 +6,7 @@ class Alert:
     def __init__(self, num, alertId=None, activation=None, expiry=None, missionType=None, maxWaveNum=None, faction=None,
                  location=None, levelOverride=None, enemySpec=None, extraEnemySpec=None, vipAgent=None,
                  customAdvancedSpawners=None, minEnemyLevel=None, maxEnemyLevel=None, difficulty=None, seed=None,
-                 archwingRequired=None, isSharkwingMission=None, missionReward=None, nightmare=None):
+                 archwingRequired=None, isSharkwingMission=None, missionReward=None, nightmare=None, descText=None):
 
         self.num = num
         self.alertId = alertId
@@ -29,7 +29,7 @@ class Alert:
         self.isSharkwingMission = isSharkwingMission
         self.missionReward = missionReward
         self.nightmare = nightmare
-
+        self.descText = descText
 
     def getRemainingDuration(self):
 
